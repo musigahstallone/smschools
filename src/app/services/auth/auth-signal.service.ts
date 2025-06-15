@@ -21,6 +21,7 @@ import { User } from '../../models/user.model';
 
 const USER_KEY = 'schoolmgt_user';
 const ROLE_KEY = 'schoolmgt_role';
+const DEFAULT_ROLE: User['role'] = 'student';
 
 @Injectable({ providedIn: 'root' })
 export class AuthSignalService {
@@ -33,21 +34,18 @@ export class AuthSignalService {
   error = signal<string | null>(null);
 
   constructor() {
-    // Restore cached user data
+    // Restore session from sessionStorage if available
     const storedUser = sessionStorage.getItem(USER_KEY);
-    const storedRole = sessionStorage.getItem(ROLE_KEY);
-    if (storedUser && storedRole) {
+    if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
         if (parsedUser?.uid && parsedUser?.email) {
           this.userData.set(parsedUser);
         }
       } catch {
-        sessionStorage.removeItem(USER_KEY);
-        sessionStorage.removeItem(ROLE_KEY);
+        this.clearSession();
       }
     }
-
     onAuthStateChanged(this.auth, async (fbUser) => {
       this.user.set(fbUser);
       if (fbUser) {
@@ -58,11 +56,14 @@ export class AuthSignalService {
     });
   }
 
+  /**
+   * Signup: always assigns default role. No role selection in UI.
+   */
   async signup(
     email: string,
     password: string,
     displayName: string,
-    role: User['role']
+    p0: string
   ) {
     this.loading.set(true);
     try {
@@ -71,17 +72,15 @@ export class AuthSignalService {
         email,
         password
       );
-
       const newUser: User = {
         uid: cred.user.uid,
         email,
         displayName,
-        role,
+        role: DEFAULT_ROLE,
         createdAt: new Date(),
         lastLogin: new Date(),
       };
       await setDoc(doc(this.firestore, 'users', newUser.uid), newUser);
-
       this.userData.set(newUser);
       this.cacheUser(newUser);
       this.error.set(null);
@@ -92,19 +91,19 @@ export class AuthSignalService {
     }
   }
 
+  /**
+   * Login: fetches user profile from Firestore, updates lastLogin, and syncs session.
+   */
   async login(email: string, password: string) {
     this.loading.set(true);
     try {
       const cred = await signInWithEmailAndPassword(this.auth, email, password);
-
-      // Load profile and update lastLogin
       await this.loadUserData(cred.user.uid);
       await setDoc(
         doc(this.firestore, 'users', cred.user.uid),
         { lastLogin: new Date() },
         { merge: true }
       );
-
       this.error.set(null);
     } catch (err: any) {
       this.error.set(err.message);
@@ -113,6 +112,9 @@ export class AuthSignalService {
     }
   }
 
+  /**
+   * Logout: clears session and signals.
+   */
   async logout() {
     this.loading.set(true);
     try {
@@ -126,6 +128,9 @@ export class AuthSignalService {
     }
   }
 
+  /**
+   * Delete account: removes user from Auth and Firestore, clears session.
+   */
   async deleteAccount() {
     this.loading.set(true);
     try {
@@ -143,6 +148,9 @@ export class AuthSignalService {
     }
   }
 
+  /**
+   * Loads user profile from Firestore and syncs session.
+   */
   private async loadUserData(uid: string) {
     try {
       const userDoc = await getDoc(doc(this.firestore, 'users', uid));
@@ -158,7 +166,6 @@ export class AuthSignalService {
         };
         this.userData.set(user);
         this.cacheUser(user);
-        // i love this
       } else {
         this.clearSession();
       }

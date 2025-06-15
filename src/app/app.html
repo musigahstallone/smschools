@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>School Management System</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 text-gray-900">
 
-<header class="bg-blue-700 text-white shadow-md">
-  <div class="container mx-auto flex items-center justify-between py-4 px-6">
-    <div class="font-bold text-xl tracking-wide">School Management</div>
-    <nav class="space-x-4">
-      <a routerLink="/dashboard" routerLinkActive="font-semibold underline" class="hover:underline">Dashboard</a>
-      <a routerLink="/students" routerLinkActive="font-semibold underline" class="hover:underline">Students</a>
-      <a routerLink="/teachers" routerLinkActive="font-semibold underline" class="hover:underline">Teachers</a>
-      <a routerLink="/classes" routerLinkActive="font-semibold underline" class="hover:underline">Classes</a>
-      <a routerLink="/reports" routerLinkActive="font-semibold underline" class="hover:underline">Reports</a>
-      <a routerLink="/login" routerLinkActive="font-semibold underline" class="hover:underline">Login</a>
-    </nav>
-  </div>
-</header>
+  <header class="bg-blue-700 text-white shadow-md">
+    <div class="container mx-auto flex items-center justify-between py-4 px-6">
+      <div class="font-bold text-xl tracking-wide">School Management</div>
+      <nav class="space-x-4">
+        <a routerLink="/dashboard" routerLinkActive="font-semibold underline" class="hover:underline">Dashboard</a>
+        <a routerLink="/students" routerLinkActive="font-semibold underline" class="hover:underline">Students</a>
+        <a routerLink="/teachers" routerLinkActive="font-semibold underline" class="hover:underline">Teachers</a>
+        <a routerLink="/classes" routerLinkActive="font-semibold underline" class="hover:underline">Classes</a>
+        <a routerLink="/reports" routerLinkActive="font-semibold underline" class="hover:underline">Reports</a>
+        <a routerLink="/login" routerLinkActive="font-semibold underline" class="hover:underline">Login</a>
+      </nav>
+    </div>
+  </header>
 
-<main class="min-h-[80vh] bg-gray-50 dark:bg-gray-900">
-  <div class="container mx-auto py-8 px-4">
-    <router-outlet />
-  </div>
-</main>
+  <main class="min-h-[80vh] bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto py-8 px-4">
+      <router-outlet />
+    </div>
+  </main>
 
-<footer class="bg-blue-700 text-white text-center py-4 mt-8">
-  <div>© 2025 School Management System. All rights reserved.</div>
-</footer>
+  <footer class="bg-blue-700 text-white text-center py-4 mt-8">
+    <div>© 2025 School Management System. All rights reserved.</div>
+  </footer>
 
 </body>
+
 </html>
