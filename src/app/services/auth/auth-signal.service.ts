@@ -158,6 +158,7 @@ export class AuthSignalService {
         };
         this.userData.set(user);
         this.cacheUser(user);
+        // i love this
       } else {
         this.clearSession();
       }
