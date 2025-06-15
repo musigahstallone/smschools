@@ -6,7 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>School Management System</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Add a subtle transition for color changes */
+    body {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    /* Style for the dark mode toggle (example) */
+    .dark-mode-toggle {
+      cursor: pointer;
+      /* Add your styling for the toggle here */
+    }
+  </style>
 </head>
+<<<<<<< HEAD
 
 <body class="bg-gray-100 text-gray-900">
 
@@ -33,6 +45,39 @@
   <footer class="bg-blue-700 text-white text-center py-4 mt-8">
     <div>© 2025 School Management System. All rights reserved.</div>
   </footer>
+=======
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+
+<header class="bg-blue-700 text-white shadow-md dark:bg-gray-800">
+  <div class="container mx-auto flex items-center justify-between py-4 px-6">
+    <div class="font-bold text-xl tracking-wide">School Management</div>
+    <nav class="space-x-4 flex items-center">
+      <a routerLink="/dashboard" routerLinkActive="font-semibold underline" class="hover:underline transition duration-300 ease-in-out">Dashboard</a>
+      <a routerLink="/students" routerLinkActive="font-semibold underline" class="hover:underline transition duration-300 ease-in-out">Students</a>
+      <a routerLink="/teachers" routerLinkActive="font-semibold underline" class="hover:underline transition duration-300 ease-in-out">Teachers</a>
+      <a routerLink="/classes" routerLinkActive="font-semibold underline" class="hover:underline transition duration-300 ease-in-out">Classes</a>
+      <a routerLink="/reports" routerLinkActive="font-semibold underline" class="hover:underline transition duration-300 ease-in-out">Reports</a>
+      <a routerLink="/login" routerLinkActive="font-semibold underline" class="hover:underline transition duration-300 ease-in-out">Login</a>
+      
+      <!-- Dark mode toggle (example) -->
+      <div class="dark-mode-toggle ml-4" onclick="document.body.classList.toggle('dark')">
+        <!-- You can use an icon here -->
+        🌙
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="min-h-[80vh] bg-gray-50 dark:bg-gray-900 py-8 px-4">
+  <div class="container mx-auto">
+    <router-outlet />
+  </div>
+</main>
+
+<footer class="bg-blue-700 text-white text-center py-4 mt-8 dark:bg-gray-800">
+  <div>© 2025 School Management System. All rights reserved.</div>
+</footer>
+>>>>>>> 8bb3524 (app.html changes)
 
 </body>
 
