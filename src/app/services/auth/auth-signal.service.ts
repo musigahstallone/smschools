@@ -120,7 +120,7 @@ export class AuthSignalService {
     try {
       await signOut(this.auth);
       this.clearSession();
-      this.error.set(null);
+ this.error.set(null);
     } catch (err: any) {
       this.error.set(err.message);
     } finally {
@@ -141,8 +141,8 @@ export class AuthSignalService {
         this.clearSession();
         this.error.set(null);
       }
-    } catch (err: any) {
-      this.error.set(err.message);
+ } catch (err: any) {
+ this.error.set(this.getErrorMessage(err));
     } finally {
       this.loading.set(false);
     }
@@ -187,5 +187,28 @@ export class AuthSignalService {
     this.userData.set(null);
     sessionStorage.removeItem(USER_KEY);
     sessionStorage.removeItem(ROLE_KEY);
+  }
+
+  private getErrorMessage(error: any): string {
+    switch (error.code) {
+      case 'auth/user-not-found':
+        return 'No user found with this email.';
+      case 'auth/wrong-password':
+        return 'Incorrect password.';
+      case 'auth/email-already-in-use':
+        return 'This email address is already in use.';
+      case 'auth/weak-password':
+        return 'Password should be at least 6 characters.';
+      case 'auth/invalid-email':
+        return 'Invalid email address.';
+      case 'auth/operation-not-allowed':
+        return 'Email/password sign-in is not enabled. Please contact support.';
+      case 'auth/account-exists-with-different-credential':
+        return 'An account already exists with the same email address but different sign-in credentials.';
+ case 'auth/invalid-credential':
+ return 'Invalid credentials. Please check your email and password.';
+      default:
+        return 'An unexpected error occurred. Please try again.';
+    }
   }
 }

@@ -1,37 +1,90 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-  <form class="bg-white dark:bg-gray-800 p-8 rounded shadow-md w-full max-w-sm"
-    (submit)="$event.preventDefault(); signupMode() ? signup() : login()">
+  <form
+    class="bg-white dark:bg-gray-800 p-8 rounded shadow-md w-full max-w-sm"
+    (ngSubmit)="signupMode() ? signup() : login()"
+    #loginForm="ngForm"
+  >
     <h2 class="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-100">
       {{ signupMode() ? 'Sign Up' : 'Sign In' }}
     </h2>
+
+    <!-- Email -->
     <div class="mb-4">
-      <label class="block text-gray-700 dark:text-gray-200 mb-2" for="email">Email</label>
-      <input id="email" type="email"
+      <label for="email" class="block text-gray-700 dark:text-gray-200 mb-2">Email</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
         class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 dark:bg-gray-700 dark:text-gray-100"
-        [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" required autocomplete="username" />
+        [ngModel]="email()"
+        (ngModelChange)="email.set($event)"
+        required
+        autocomplete="username"
+        #emailInput="ngModel"
+      />
+      <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="text-red-600 text-sm mt-1">
+        Email is required.
+      </div>
     </div>
+
+    <!-- Full Name -->
     <div class="mb-4" *ngIf="signupMode()">
-      <label class="block text-gray-700 dark:text-gray-200 mb-2" for="displayName">Full Name</label>
-      <input id="displayName" type="text"
+      <label for="displayName" class="block text-gray-700 dark:text-gray-200 mb-2">Full Name</label>
+      <input
+        id="displayName"
+        type="text"
+        name="displayName"
         class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 dark:bg-gray-700 dark:text-gray-100"
-        [ngModel]="displayName()" (ngModelChange)="displayName.set($event)" name="displayName" required />
+        [ngModel]="displayName()"
+        (ngModelChange)="displayName.set($event)"
+        required
+        #displayNameInput="ngModel"
+      />
+      <div *ngIf="displayNameInput.invalid && (displayNameInput.dirty || displayNameInput.touched)" class="text-red-600 text-sm mt-1">
+        Full Name is required.
+      </div>
     </div>
+
+    <!-- Password -->
     <div class="mb-6">
-      <label class="block text-gray-700 dark:text-gray-200 mb-2" for="password">Password</label>
-      <input id="password" type="password"
-        class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 dark:bg-gray-700 dark:text-gray-100"
-        [ngModel]="password()" (ngModelChange)="password.set($event)" name="password" required
-        autocomplete="current-password" />
+      <label for="password" class="block text-gray-700 dark:text-gray-200 mb-2">Password</label>
+      <div class="flex items-center border rounded focus-within:ring focus-within:border-blue-400 dark:bg-gray-700">
+        <input
+          id="password"
+          [type]="passwordVisible() ? 'text' : 'password'"
+          name="password"
+          class="w-full px-3 py-2 bg-transparent outline-none dark:text-gray-100"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          required
+          autocomplete="current-password"
+          #passwordInput="ngModel"
+        />
+        <button type="button" class="px-3 py-2 text-gray-600 dark:text-gray-300" (click)="togglePasswordVisibility()">
+          {{ passwordVisible() ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+      <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="text-red-600 text-sm mt-1">
+        Password is required.
+      </div>
     </div>
-    <button type="submit"
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
       class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-200"
-      [disabled]="loading()">
+      [disabled]="isFormInvalid"
+    >
       <span *ngIf="!loading(); else loadingTpl">{{ signupMode() ? 'Sign Up' : 'Sign In' }}</span>
       <ng-template #loadingTpl>
         <span class="animate-spin mr-2">🔄</span>Loading...
       </ng-template>
     </button>
+
+    <!-- Error Message -->
     <div *ngIf="error()" class="mt-4 text-red-600 text-center">{{ error() }}</div>
+
+    <!-- Toggle Link -->
     <div class="mt-4 text-center">
       <button type="button" class="text-blue-600 hover:underline dark:text-blue-400" (click)="toggleMode()">
         {{ signupMode() ? 'Already have an account? Sign In' : "Don't have an account? Sign Up" }}
