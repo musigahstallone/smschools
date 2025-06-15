@@ -1,0 +1,8 @@
+<div>
+    <h2 class="text-xl font-bold mb-4">Admin Dashboard</h2>
+    <div class="mb-2">Welcome, {{ user()?.displayName }}</div>
+    <div class="mb-4">All Students: {{ allStudents().length }}</div>
+    <div class="mb-4">All Teachers: {{ allTeachers().length }}</div>
+    <div class="mb-4">All Classes: {{ allClasses().length }}</div>
+    <div class="mb-4">All Grades: {{ allGrades().length }}</div>
+</div>

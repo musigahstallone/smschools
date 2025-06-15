@@ -1,0 +1,12 @@
+<div class="p-6">
+  <h1 class="text-3xl font-bold mb-4">Dashboard</h1>
+  @if (user()?.role === 'admin') {
+  <app-admin-dashboard />
+  } @else if (user()?.role === 'teacher') {
+  <app-teacher-dashboard />
+  } @else if (user()?.role === 'student') {
+  <app-student-dashboard />
+  } @else {
+  <div class="text-red-600">Unknown role or not authorized.</div>
+  }
+</div>

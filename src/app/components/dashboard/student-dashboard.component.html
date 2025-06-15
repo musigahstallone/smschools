@@ -1,0 +1,12 @@
+<div>
+  <h2 class="text-xl font-bold mb-4">Student Dashboard</h2>
+  <div class="mb-2">Welcome, {{ user()?.displayName }}</div>
+  <div class="mb-4">Your Grades:</div>
+  <ul>
+    @for (grade of studentGrades(); track grade.classId) {
+    <li>Class: {{ grade.classId }} - Grade: {{ grade.grade }}</li>
+    }
+  </ul>
+</div>
+
+<!-- <li *ngFor="let grade of studentGrades()">Class: {{ grade.classId }} - Grade: {{ grade.grade }}</li> -->

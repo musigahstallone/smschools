@@ -1,0 +1,10 @@
+<div>
+    <h2 class="text-xl font-bold mb-4">Teacher Dashboard</h2>
+    <div class="mb-2">Welcome, {{ user()?.displayName }}</div>
+    <div class="mb-4">Your Classes:</div>
+    <ul>
+        @for (c of teacherClasses(); track c.className) {
+            <li>Class: {{ c.className }} (Room: {{ c.room }})</li>
+        }
+    </ul>
+</div>
